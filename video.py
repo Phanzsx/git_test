@@ -101,7 +101,7 @@ async def push_stream(request: Request):
                     sampler.update_interval(load_status, policy)
                 # 图像预处理
                 steps = preprocess_steps.get(task, [])
-                processed_batch = [preprocess_pipeline(f, steps) if steps else f for f in batch_frames[task]]
+                processed_batch = preprocess_pipeline(batch_frames[task], steps)
                 # 推理（通过Nginx发送）
                 files = []
                 for idx, img in enumerate(processed_batch):
