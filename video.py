@@ -105,17 +105,9 @@ async def push_stream(request: Request):
                 # 推理（通过Nginx发送）
                 files = []
                 for idx, img in enumerate(processed_batch):
-                    if isinstance(img, np.ndarray):
-                        _, img_encoded = cv2.imencode('.jpg', img)
-                        img_bytes = img_encoded.tobytes()
-                        files.append(('images', (f'{task}_{idx}.jpg', io.BytesIO(img_bytes), 'image/jpeg')))
-                payload = {
-                    "task_id": task,
-                    "camera_id": camera_id,
-                    "app_name": task,
-                }
+                    break
                 try:
-                    response = requests.post(inference_api, data=payload, files=files, timeout=10)
+                    response = requests.post(inference_api)
                 except Exception as e:
                     print(f"推理请求失败: {e}")
                 batch_frames[task] = []
